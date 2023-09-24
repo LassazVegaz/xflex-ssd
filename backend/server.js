@@ -38,8 +38,6 @@ const run = async () => {
 	console.log("Connecting to DB...");
 	const URI = process.env.MONGODB_URL;
 	await mongoose.connect(URI, {
-		useCreateIndex: true,
-		useFindAndModify: false,
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	});
