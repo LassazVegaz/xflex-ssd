@@ -1,0 +1,11 @@
+.container12{
+    min-height: 120px;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    background-color: green;
+}
