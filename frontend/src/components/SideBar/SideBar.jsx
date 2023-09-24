@@ -8,7 +8,7 @@ import {
 	Receipt as ReceiptIcon,
 } from "@mui/icons-material";
 import { Box, Typography } from "@mui/material";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const links = [
 	{
