@@ -1,57 +1,64 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { GlobalState } from "../../GlobalState";
 
 function Filters() {
 	const state = useContext(GlobalState);
-	const [categories] = state.categoriesAPI.categories;
+	// const [categories] = state.categoriesAPI.categories
 
-	const [category, setCategory] = state.productsAPI.category;
-	const [sort, setSort] = state.productsAPI.sort;
+	// const [category, setCategory] = state.productsAPI.category;
+	// const [sort, setSort] = state.productsAPI.sort
 	const [search, setSearch] = state.productsAPI.search;
 
-	const handleCategory = (e) => {
-		setCategory(e.target.value);
-		setSearch("");
-	};
+	// const handleCategory = e => {
+	//     setCategory(e.target.value)
+	//     setSearch('')
+	// }
 
 	return (
-		<div className="filter_menu">
-			<div className="row1">
-				<span>Filters: </span>
-				<select
-					name="category"
-					value={category}
-					onChange={handleCategory}
-				>
-					<option value="">All Products</option>
-					{categories.map((category) => (
-						<option
-							value={"category=" + category._id}
-							key={category._id}
-						>
-							{category.name}
-						</option>
-					))}
-				</select>
-			</div>
-
-			<input
-				type="text"
-				value={search}
-				placeholder="Enter your search!"
-				onChange={(e) => setSearch(e.target.value.toLowerCase())}
-			/>
-
-			<div className="row sort1">
-				<span>Sort By: </span>
-				<select value={sort} onChange={(e) => setSort(e.target.value)}>
-					<option value="">Newest</option>
-					<option value="sort=oldest">Oldest</option>
-					<option value="sort=-sold">Best sales</option>
-					<option value="sort=-price">Price: Hight-Low</option>
-					<option value="sort=price">Price: Low-Hight</option>
-				</select>
-			</div>
+		<div>
+			<table id="customers1" style={{ marginTop: "40px" }}>
+				<thead>
+					<tr>
+						<th scope="col" style={{ width: "10px" }}>
+							{" "}
+							<div
+								className="row_btn"
+								style={{ width: "1300px" }}
+							>
+								<Link
+									id="btn_view"
+									style={{
+										backgroundColor: "#FDCE2A",
+										color: "black",
+										marginLeft: "1100px",
+									}}
+									to="/create_product"
+								>
+									Add new Product
+								</Link>
+							</div>
+						</th>
+						<th scope="col" style={{ width: "1600px" }}>
+							{" "}
+							<div className="filter_menu">
+								<input
+									type="text"
+									value={search}
+									placeholder="search"
+									onChange={(e) =>
+										setSearch(e.target.value.toLowerCase())
+									}
+								/>
+							</div>
+						</th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+			</table>
 		</div>
 	);
 }

@@ -5,13 +5,15 @@
     align-items: center;
     justify-content: space-around;
 }
+
 .upload{
     max-width: 450px;
     height: 500px;
     width: 100%;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin: 20px;
+    border:2px solid gray;
+    padding:20px;
+    margin:20px;
+    border-radius: 10px;
     position: relative;
 }
 #file_up{
@@ -24,63 +26,67 @@
     content: "+";
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 90%;
     top:0;
-    left: 0;
-    background: white;
-    color: rgb(250, 200, 107);
+    left:0;
+    background: whitesmoke;
+    color:purple;
     font-size: 17rem;
     text-align: center;
-    cursor: pointer;
-    margin: auto;
+    margin:auto;
 }
 #file_img{
     width: 100%;
     height: 100%;
-    position: absolute;
+    display: cover;
+    display: block;
+    position:absolute;
     top:0;
-    left: 0;
-    background: white;
+    left:0;
+    background: whitesmoke;
+
 }
 #file_img img{
     width: 100%;
     height: 100%;
     display: block;
     object-fit: cover;
+    
 }
 #file_img span{
-    position: absolute;
-    top: -13px;
+    position:absolute;
+    top:-13px;
     right: -13px;
-    background: white;
-    border: 1px solid #ddd;
+    background: whitesmoke;
+    border:1px solid #ede;
     border-radius: 50%;
-    padding: 6px 10px;
+    padding:6px 10px;
     cursor: pointer;
     font-weight: 900;
-    color: crimson;
+    color:salmon;
 }
-
 .create_product form{
     max-width: 500px;
-    min-width: 290px;
+    min-width: 280px;
     width: 100%;
     margin: 15px 30px;
 }
 .create_product form .row{
     width: 100%;
-    margin: 15px 0;
+    margin:15px 0px;
 }
-.create_product form input, textarea{
-    width: 100%;
-    min-height: 40px;
-    padding: 0 5px;
+.create_product form,input,textarea{
+width: 100%;
+min-height: 40px;
+padding:0 5px
 }
+
 .create_product form button{
-    width: 200px;
+    width:200px;
     height: 40px;
-    background: #555;
-    color: white;
+    align-items: center;
+    background: rgb(44, 44, 44);
+    color:white;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 700;

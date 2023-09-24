@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { GlobalState } from "../../GlobalState";
-import ProductItem from "../utils/productItem/ProductItem";
-import Loading from "../utils/loading/Loading";
+import ProductItem from "../../components/productItem/ProductItem";
+import Loading from "../../components/loading/Loading";
 import axios from "axios";
 import Filters from "./Filters";
 import LoadMore from "./LoadMore";
@@ -13,7 +13,7 @@ function Products() {
 	const [token] = state.token;
 	const [callback, setCallback] = state.productsAPI.callback;
 	const [loading, setLoading] = useState(false);
-	const [isCheck, setIsCheck] = useState(false);
+	// const [isCheck, setIsCheck] = useState(false);
 
 	const handleCheck = (id) => {
 		products.forEach((product) => {
@@ -45,20 +45,19 @@ function Products() {
 		}
 	};
 
-	const checkAll = () => {
-		products.forEach((product) => {
-			product.checked = !isCheck;
-		});
-		setProducts([...products]);
-		setIsCheck(!isCheck);
-	};
+	// const checkAll = () =>{
+	//     products.forEach(product => {
+	//         product.checked = !isCheck
+	//     })
+	//     setProducts([...products])
+	//     setIsCheck(!isCheck)
+	// }
 
-	const deleteAll = () => {
-		products.forEach((product) => {
-			if (product.checked)
-				deleteProduct(product._id, product.images.public_id);
-		});
-	};
+	// const deleteAll = () =>{
+	//     products.forEach(product => {
+	//         if(product.checked) deleteProduct(product._id, product.images.public_id)
+	//     })
+	// }
 
 	if (loading)
 		return (
@@ -68,42 +67,50 @@ function Products() {
 		);
 	return (
 		<>
-			<Filters />
+			<div
+				class="w3-card-4 w3-margin"
+				style={{ width: "1460px", height: "800px" }}
+			>
+				<div>
+					<h1 style={{ marginLeft: "650px" }}>Products</h1>
 
-			{isAdmin && (
-				<div className="delete-all">
-					<span>Select all</span>
-					<input
-						type="checkbox"
-						checked={isCheck}
-						onChange={checkAll}
-					/>
-					<button
-						class="w3-button w3-black"
-						style={{ width: "150px", height: "50px" }}
-						onClick={deleteAll}
-					>
-						Delete ALL
-					</button>
+					<hr></hr>
+					<Filters />
+
+					<hr style={{ backgroundColor: "black" }}></hr>
+
+					<table id="customers1" style={{ marginTop: "40px" }}>
+						<thead>
+							<tr>
+								<th scope="col">REF.No</th>
+								<th scope="col">Product </th>
+								<th scope="col">Unit Price(Rs.)</th>
+								<th scope="col">Supplier</th>
+								<th scope="col">Action</th>
+							</tr>
+						</thead>
+					</table>
+
+					<hr style={{ backgroundColor: "black" }}></hr>
+
+					<div className="products">
+						{products.map((product) => {
+							return (
+								<ProductItem
+									key={product._id}
+									product={product}
+									isAdmin={isAdmin}
+									deleteProduct={deleteProduct}
+									handleCheck={handleCheck}
+								/>
+							);
+						})}
+					</div>
+
+					<LoadMore />
+					{products.length === 0 && <Loading />}
 				</div>
-			)}
-
-			<div className="products">
-				{products.map((product) => {
-					return (
-						<ProductItem
-							key={product._id}
-							product={product}
-							isAdmin={isAdmin}
-							deleteProduct={deleteProduct}
-							handleCheck={handleCheck}
-						/>
-					);
-				})}
 			</div>
-
-			<LoadMore />
-			{products.length === 0 && <Loading />}
 		</>
 	);
 }

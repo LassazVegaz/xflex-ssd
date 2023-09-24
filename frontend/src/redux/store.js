@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { screenLoaderReducer } from "./slices/screen-loader.slice";
+import authSlice from "./slices/auth.slice";
 
-export const store = configureStore({
+const store = configureStore({
 	reducer: {
-		screenLoader: screenLoaderReducer,
+		auth: authSlice.reducer,
 	},
 });
+
+export default store;

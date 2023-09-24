@@ -1,43 +1,40 @@
-import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
-import { SupplierMenu } from "./SupplierMenu";
+import { DensityMedium as DensityMediumIcon } from "@mui/icons-material";
+import { Box, IconButton, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+import ProfilePic from "./ProfilePic";
 
 const Header = () => {
+	const { user } = useSelector((s) => s.auth);
+
 	return (
-		<>
-			<AppBar>
-				<Toolbar
-					sx={{
-						width: "100%",
-					}}
-				>
-					<Typography
-						variant="h5"
-						fontWeight={800}
-						component="div"
+		<Box
+			sx={{
+				display: "flex",
+				backgroundColor: "primary.main",
+				color: "primary.contrastText",
+				justifyContent: "space-between",
+				alignItems: "center",
+				py: 1.5,
+				pr: 1.5,
+				gridArea: "header",
+			}}
+		>
+			{user && (
+				<IconButton>
+					<DensityMediumIcon
 						sx={{
-							flexGrow: 1,
+							color: "primary.contrastText",
 						}}
-					>
-						XFLEX CLOTHING STORE
-					</Typography>
+					/>
+				</IconButton>
+			)}
 
-					<Box>
-						<Button variant="secondary">Shop</Button>
-						<Button variant="secondary">History</Button>
-						<SupplierMenu />
-						<Button variant="secondary">Login</Button>
-					</Box>
-				</Toolbar>
-			</AppBar>
+			<Typography variant="h5" margin="auto">
+				MPS
+			</Typography>
 
-			<Box py={1}></Box>
-
-			<Toolbar
-				sx={{
-					minHeight: "57px !important",
-				}}
-			/>
-		</>
+			{user && <ProfilePic />}
+		</Box>
 	);
 };
 
