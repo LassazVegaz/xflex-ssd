@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import axiosApp from "../../helpers/axios-app";
 
 function Register() {
 	const navigate = useNavigate();
@@ -19,7 +19,7 @@ function Register() {
 	const registerSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			await axios.post("/user/register", { ...user });
+			await axiosApp.post("/users/register", { ...user });
 
 			localStorage.setItem("firstLogin", true);
 
