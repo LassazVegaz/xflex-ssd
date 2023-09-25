@@ -41,6 +41,7 @@ const userCtrl = {
 
 			res.json({ accesstoken });
 		} catch (err) {
+			console.error(err);
 			return res.status(500).json({ msg: err.message });
 		}
 	},
