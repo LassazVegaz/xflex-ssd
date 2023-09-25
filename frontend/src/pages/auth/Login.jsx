@@ -1,8 +1,10 @@
 import { Typography, Box, Button, TextField } from "@mui/material";
 import useLogin from "./hook";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
 	const { form, handleChange, handleSubmit } = useLogin();
+	const navigate = useNavigate();
 
 	return (
 		<Box
@@ -66,6 +68,14 @@ function Login() {
 				>
 					<Button variant="contained" type="submit">
 						Sign In
+					</Button>
+
+					<Button
+						variant="contained"
+						color="secondary"
+						onClick={() => navigate("register")}
+					>
+						Sign Up
 					</Button>
 				</Box>
 			</Box>
