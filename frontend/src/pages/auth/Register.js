@@ -30,10 +30,11 @@ function Register() {
 	};
 
 	return (
-		<Box display="grid" px={2} mt={5} gridTemplateColumns="auto 1fr">
+		<Box display="grid" px={2} mt={5} gridTemplateColumns="3fr 2fr">
 			<Box
 				component="img"
-				height="560px"
+				maxWidth="100%"
+				maxHeight="80vh"
 				src={"/static/images/login1.jpg"}
 				alt="yo yo"
 			/>
