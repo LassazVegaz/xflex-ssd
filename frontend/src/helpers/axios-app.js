@@ -14,7 +14,9 @@ const createAxiosApp = () => {
 		(config) => {
 			const token = tokenHelper.getToken();
 			if (token) {
-				config.headers.Authorization = `Bearer ${token}`;
+				// config.headers.Authorization = `Bearer ${token}`;
+				config.headers.Authorization =
+					"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQG1wcy5jb20iLCJpYXQiOjE2OTU2MjgxNjB9.ztxdrCafw2XO4IP05LwpdCcHt39xh_cHI4Xu9nvSeXI";
 			}
 			return config;
 		},
