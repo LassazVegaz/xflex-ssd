@@ -3,6 +3,9 @@ package com.yusufsezer.repository;
 import com.yusufsezer.contracts.IDatabase;
 import com.yusufsezer.contracts.IRepository;
 import com.yusufsezer.model.User;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,14 +64,21 @@ public class UserRepository implements IRepository<User, Integer> {
     @Override
     public boolean add(User user) {
         boolean result = false;
-        String query = String.format("INSERT INTO user"
-                + " VALUES(NULL, '%s', '%s', '%s', '%s')",
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getPassword());
+
         try {
-            database.executeSQL(query);
+            Connection connection = database.getConnection();
+            String query = "INSERT INTO user VALUES(NULL, ?, ?, ?, ?)";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, user.getFirstName());
+                preparedStatement.setString(2, user.getLastName());
+                preparedStatement.setString(3, user.getEmail());
+                preparedStatement.setString(4, user.getPassword());
+                preparedStatement.execute();
+            } catch (Exception e) {
+                return result;
+            }
+
             result = true;
         } catch (Exception ex) {
             return result;
