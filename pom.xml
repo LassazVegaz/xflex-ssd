@@ -34,6 +34,7 @@
 
     <build>
         <finalName>java-jsp-diary</finalName>
+
         <plugins>
             <plugin>
                 <!-- https://mvnrepository.com/artifact/org.apache.tomcat.maven/tomcat7-maven-plugin -->
@@ -46,6 +47,15 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/config</directory>
+                <excludes>
+                    <exclude>*.example</exclude>
+                </excludes>
+            </resource>
+        </resources>
     </build>
 
     <properties>
