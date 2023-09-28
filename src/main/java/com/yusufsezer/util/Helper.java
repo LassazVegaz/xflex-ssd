@@ -6,10 +6,14 @@ import com.yusufsezer.repository.DiaryRepository;
 import com.yusufsezer.repository.MySQL;
 import com.yusufsezer.repository.UserRepository;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+import java.util.Properties;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,8 +23,17 @@ public class Helper {
 
     public static String VIEW_FOLDER = "WEB-INF/view";
     public static String NOT_FOUND = "notfound.jsp";
-    public static String DB_SOURCE = "jdbc:mysql://localhost:3306/jspDiary?useSSL=false&serverTimezone=UTC&user=root&password=&charset=UTF-8";
     private static IDatabase DATABASE = null;
+
+    public Properties getProperties() {
+        Properties props = new Properties();
+        try (InputStream fis = Helper.class.getClassLoader().getResourceAsStream("app.properties")) {
+            props.load(fis);
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return props;
+    }
 
     public static void view(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -39,7 +52,8 @@ public class Helper {
 
     private static IDatabase getMySQLDatabase() {
         if (Helper.DATABASE == null) {
-            Helper.DATABASE = new MySQL(Helper.DB_SOURCE);
+            Properties properties = new Helper().getProperties();
+            Helper.DATABASE = new MySQL(properties.getProperty("database_url"));
         }
         return Helper.DATABASE;
     }
