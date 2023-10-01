@@ -107,4 +107,8 @@
         <error-code>404</error-code>
         <location>/WEB-INF/view/notfound.jsp</location>
     </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/view/server-error.jsp</location>
+    </error-page>
 </web-app>
