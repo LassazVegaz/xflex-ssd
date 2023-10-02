@@ -13,9 +13,15 @@ import com.yusufsezer.util.Helper;
 import com.yusufsezer.util.HttpHelper;
 
 public class WsoRepository {
-    public String getToken(String code) throws IOException {
+    private final HttpHelper httpHelper = new HttpHelper();
+    private final Properties properties;
+
+    public WsoRepository() throws IOException {
         Helper helper = new Helper();
-        Properties properties = helper.getProperties();
+        properties = helper.getProperties();
+    }
+
+    public String getToken(String code) throws IOException {
         String tokenUrl = properties.getProperty("wso2.token_url");
         String redirectUrl = properties.getProperty("wso2.redirect_url");
         String clientId = properties.getProperty("wso2.client_id");
@@ -44,9 +50,23 @@ public class WsoRepository {
         connection.getOutputStream().write(body.getBytes());
 
         // get access_token from response
-        HttpHelper httpHelper = new HttpHelper();
         AuthResponse response = httpHelper.getResponse(connection, AuthResponse.class);
         return response.access_token;
+    }
+
+    public UserData getUserData(String token) throws IOException {
+        String userInfoUrl = "https://localhost:9443/oauth2/userinfo?schema=openid";
+
+        // send get request to userInfoUrl with token
+        URL url = URI.create(userInfoUrl).toURL();
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setDoOutput(true);
+
+        connection.setRequestProperty("Authorization", "Bearer " + token);
+
+        // get user data from response
+        return httpHelper.getResponse(connection, UserData.class);
     }
 
     class AuthResponse {
@@ -55,5 +75,17 @@ public class WsoRepository {
         String scope;
         String token_type;
         int expires_in;
+    }
+
+    class UserData {
+        String sub;
+        String email;
+        String website;
+        String name;
+        String family_name;
+        String preferred_username;
+        String given_name;
+        String profile;
+        String country;
     }
 }
