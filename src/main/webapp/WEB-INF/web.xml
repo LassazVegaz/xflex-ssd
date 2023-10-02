@@ -78,6 +78,10 @@
         <url-pattern>/wso</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>WSOLoginServlet</servlet-name>
+        <url-pattern>/wso_callback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ProfileServlet</servlet-name>
         <url-pattern>/profile</url-pattern>
     </servlet-mapping>
