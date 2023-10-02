@@ -1,8 +1,6 @@
 package com.yusufsezer.repository;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.util.Base64;
@@ -10,9 +8,9 @@ import java.util.Properties;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import com.google.gson.Gson;
 import com.liferay.portal.kernel.util.URLStringEncoder;
 import com.yusufsezer.util.Helper;
+import com.yusufsezer.util.HttpHelper;
 
 public class WsoRepository {
     public String getToken(String code) throws IOException {
@@ -46,20 +44,9 @@ public class WsoRepository {
         connection.getOutputStream().write(body.getBytes());
 
         // get access_token from response
-        String responseStr = getResponse(connection);
-        AuthResponse response = new Gson().fromJson(responseStr, AuthResponse.class);
+        HttpHelper httpHelper = new HttpHelper();
+        AuthResponse response = httpHelper.getResponse(connection, AuthResponse.class);
         return response.access_token;
-    }
-
-    private String getResponse(HttpsURLConnection connection) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line + "\n");
-        }
-        br.close();
-        return sb.toString();
     }
 
     class AuthResponse {
