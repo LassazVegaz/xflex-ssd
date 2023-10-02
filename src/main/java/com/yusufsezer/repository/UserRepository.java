@@ -7,6 +7,7 @@ import com.yusufsezer.model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,4 +146,43 @@ public class UserRepository implements IRepository<User, Integer> {
         return user;
     }
 
+    public boolean isEmailExist(String email) throws SQLException {
+        boolean result = false;
+        PreparedStatement preparedStatement = null;
+        try {
+            Connection connection = database.getConnection();
+            String query = "SELECT * FROM user WHERE email = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            result = resultSet.next();
+        } catch (Exception e) {
+            return result;
+        } finally {
+            if (preparedStatement != null)
+                preparedStatement.close();
+        }
+        return result;
+    }
+
+    public User getByEmail(String email) throws SQLException {
+        String query = "SELECT user_id FROM user WHERE email = ?";
+        User user = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            Connection connection = database.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                user = get(resultSet.getInt("user_id"));
+            }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        } finally {
+            if (preparedStatement != null)
+                preparedStatement.close();
+        }
+        return user;
+    }
 }

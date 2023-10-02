@@ -8,10 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yusufsezer.model.User;
+import com.yusufsezer.repository.UserRepository;
 import com.yusufsezer.repository.WsoRepository;
+import com.yusufsezer.repository.WsoRepository.UserData;
 import com.yusufsezer.util.Helper;
 
 public class WSOLoginServlet extends HttpServlet {
+    private final UserRepository userRepository;
+
+    public WSOLoginServlet() throws IOException {
+        userRepository = Helper.userRepository();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -24,8 +33,17 @@ public class WSOLoginServlet extends HttpServlet {
                 WsoRepository wsoRepository = new WsoRepository();
                 String code = request.getParameter("code");
                 String token = wsoRepository.getToken(code);
-                System.out.println("token: " + token);
-                response.sendRedirect("profile");
+                UserData userData = wsoRepository.getUserData(token);
+
+                Boolean userExists = userRepository.isEmailExist(userData.email);
+                if (Boolean.FALSE.equals(userExists)) {
+                    User user = wsoRepository.convertUserDataToUser(userData);
+                    userRepository.add(user);
+                }
+
+                User user = userRepository.getByEmail(userData.email);
+                request.getSession().setAttribute("user", user);
+                response.sendRedirect("mydiaries");
             } else {
                 response.sendRedirect(
                         properties.getProperty("wso2.login_url"));
@@ -33,6 +51,7 @@ public class WSOLoginServlet extends HttpServlet {
         } catch (Exception e) {
             System.err.println(e.getMessage());
             request.setAttribute("viewFile", "server-error.jsp");
+            Helper.view(request, response);
         }
     }
 }

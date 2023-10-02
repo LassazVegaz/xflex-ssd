@@ -9,6 +9,7 @@ import java.util.Properties;
 import javax.net.ssl.HttpsURLConnection;
 
 import com.liferay.portal.kernel.util.URLStringEncoder;
+import com.yusufsezer.model.User;
 import com.yusufsezer.util.Helper;
 import com.yusufsezer.util.HttpHelper;
 
@@ -66,7 +67,18 @@ public class WsoRepository {
         connection.setRequestProperty("Authorization", "Bearer " + token);
 
         // get user data from response
-        return httpHelper.getResponse(connection, UserData.class);
+        UserData userData = httpHelper.getResponse(connection, UserData.class);
+        userData.email = userData.sub + "@wso2.com";
+        return userData;
+    }
+
+    public User convertUserDataToUser(UserData userData) {
+        User user = new User();
+        user.setEmail(userData.email);
+        user.setFirstName(userData.sub);
+        user.setLastName("");
+        user.setPassword(properties.getProperty("wso2.user_default_password"));
+        return user;
     }
 
     class AuthResponse {
@@ -77,15 +89,15 @@ public class WsoRepository {
         int expires_in;
     }
 
-    class UserData {
-        String sub;
-        String email;
-        String website;
-        String name;
-        String family_name;
-        String preferred_username;
-        String given_name;
-        String profile;
-        String country;
+    public class UserData {
+        public String sub;
+        public String email;
+        public String website;
+        public String name;
+        public String family_name;
+        public String preferred_username;
+        public String given_name;
+        public String profile;
+        public String country;
     }
 }
