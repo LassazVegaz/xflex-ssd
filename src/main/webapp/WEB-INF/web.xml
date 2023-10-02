@@ -14,6 +14,11 @@
         <url-pattern>/delete</url-pattern>
         <url-pattern>/edit</url-pattern>
     </filter-mapping>
+
+    <servlet>
+        <servlet-name>WSOLoginServlet</servlet-name>
+        <servlet-class>com.yusufsezer.controller.WSOLoginServlet</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>IndexServlet</servlet-name>
         <servlet-class>com.yusufsezer.controller.IndexServlet</servlet-class>
@@ -54,6 +59,7 @@
         <servlet-name>EditServlet</servlet-name>
         <servlet-class>com.yusufsezer.controller.EditServlet</servlet-class>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/css/*</url-pattern>
@@ -62,9 +68,14 @@
         <servlet-name>default</servlet-name>
         <url-pattern>/js/*</url-pattern>
     </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WSOLoginServlet</servlet-name>
+        <url-pattern>/wso</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProfileServlet</servlet-name>
