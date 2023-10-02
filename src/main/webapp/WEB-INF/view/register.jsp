@@ -34,5 +34,11 @@
                 </button>
             </form>
         </div>
+
+        <div class="row" style="text-align: center; margin-top: 40px;">
+            <a href="/java-jsp-diary/wso" class="waves-effect waves-light btn red">
+                Register with WSO2
+            </a>
+        </div>
     </div>
 </t:layout>
