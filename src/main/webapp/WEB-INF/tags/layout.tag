@@ -1,5 +1,12 @@
 <%@tag description="layout" pageEncoding="UTF-8"%>
+<%@tag import="org.owasp.encoder.Encode" %>
 <%@taglib tagdir="/WEB-INF/tags/" prefix="t" %>
+
+<%
+String pageTitle = (String) request.getAttribute("pageTitle");
+pageTitle = Encode.forHtml(pageTitle);
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +18,9 @@
 
         <div class="section no-pad-bot">
             <div class="container">
-                <h1 class="header center">${pageTitle}</h1>
+                <h1 class="header center">
+                    <%= pageTitle %>
+                </h1>
             </div>
         </div>
 

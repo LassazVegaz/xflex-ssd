@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="windows-1254"%>
+<!-- <%@page contentType="text/html" pageEncoding="windows-1254"%> -->
 <!DOCTYPE html>
 <html>
 
@@ -17,7 +17,7 @@
         }
 
         h1 {
-            font-size: 150px;
+            font-size: 80px;
             margin: 0;
         }
 
@@ -42,13 +42,16 @@
             color: white;
         }
     </style>
-    <title>Not found</title>
+    <title>Error</title>
 </head>
 
 <body>
-    <h1>404</h1>
-    <h2>Sorry but the page you are looking for does not exist, have been removed. name changed or is temporarily
-        unavailable</h2>
+    <h1>
+        Sorry, something went wrong.
+    </h1>
+    <h2>
+        Please try again later. If the problem persists, contact the administrator.
+    </h2>
 
     <a href="/"><button>Go to home page</button></a>
 </body>

@@ -1,0 +1,1 @@
+database_url=jdbc:mysql://localhost:3306/jspDiary?useSSL=false&serverTimezone=UTC&user=root&password=lassi2k-MySQL&charset=UTF-8
