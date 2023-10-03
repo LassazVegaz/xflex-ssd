@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.owasp.encoder.Encode;
+
 public class AddServlet extends HttpServlet {
 
     @Override
@@ -30,6 +32,8 @@ public class AddServlet extends HttpServlet {
 
         User loginUser = Helper.getLoginUser(request);
         String diaryContent = request.getParameter("diaryContent");
+        // sanitized diaryContent
+        diaryContent = Encode.forHtml(diaryContent);
         boolean visible = request.getParameter("visible") != null;
 
         Diary newDiary = new Diary();

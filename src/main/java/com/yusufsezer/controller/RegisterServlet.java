@@ -22,7 +22,7 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String[] parameters = {"first_name", "last_name", "email", "password"};
+        String[] parameters = { "first_name", "last_name", "email", "password" };
         boolean checkResult = Helper
                 .checkParameters(parameters, request.getParameterMap());
 
@@ -53,6 +53,5 @@ public class RegisterServlet extends HttpServlet {
                 Helper.view(request, response);
             }
         }
-
     }
 }
