@@ -14,16 +14,21 @@ public class ProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        int userId = Integer.parseInt(request.getParameter("user_id"));
-        User foundUser = Helper.userRepository().get(userId);
+        User loggedInUser = Helper.getLoginUser(request);
+        if (loggedInUser != null) {
+            int requestedUserId = Integer.parseInt(request.getParameter("user_id"));
+            User requestedUser = Helper.userRepository().get(requestedUserId);
 
-        if (foundUser != null) {
-            request.setAttribute("viewFile", "profile.jsp");
-            request.setAttribute("pageTitle", foundUser.toString());
-            request.setAttribute("diaryList", Helper.diaryRepository()
-                    .getAllByUserId(userId, false));
+            if (requestedUser != null && loggedInUser.getId() == requestedUser.getId()) {
+                // check The logged-in user is authorization
+                request.setAttribute("viewFile", "profile.jsp");
+                request.setAttribute("pageTitle", requestedUser.toString());
+                request.setAttribute("diaryList", Helper.diaryRepository().getAllByUserId(requestedUserId, false));
+                Helper.view(request, response);
+            }
+        } else {
+            // User is not logged in. Redirect to the login page.
+            response.sendRedirect("login");
         }
-
-        Helper.view(request, response);
     }
 }

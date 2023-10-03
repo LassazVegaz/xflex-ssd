@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.owasp.encoder.Encode;
+
 public class EditServlet extends HttpServlet {
 
     @Override
@@ -21,10 +23,13 @@ public class EditServlet extends HttpServlet {
 
         if (foundDiary != null) {
             request.setAttribute("viewFile", "edit.jsp");
+
             DateFormat sdf = new SimpleDateFormat("YYYY-MM-dd");
-            request.setAttribute("pageTitle", "Edit diary / "
-                    + sdf.format(foundDiary.getDateOfDiary()));
+            // encode the pageTitle before setting it as an attribute.
+            String pageTitle = "Edit diary / " + Encode.forHtml(sdf.format(foundDiary.getDateOfDiary()));
+            request.setAttribute("pageTitle", pageTitle);
             request.setAttribute("diary", foundDiary);
+
             Helper.view(request, response);
         } else {
             response.sendRedirect("mydiaries");
@@ -40,7 +45,10 @@ public class EditServlet extends HttpServlet {
         Diary foundDiary = Helper.diaryRepository().get(diaryId);
 
         if (foundDiary != null) {
+
             String diaryContent = request.getParameter("diaryContent");
+            // encode the diaryContent parameter before setting it in the foundDiary object
+            diaryContent = Encode.forHtml(diaryContent);
             boolean visible = request.getParameter("visible") != null;
             foundDiary.setContent(diaryContent);
             foundDiary.setVisibility(visible);
