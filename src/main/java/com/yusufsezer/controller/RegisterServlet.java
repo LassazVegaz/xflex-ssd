@@ -1,5 +1,4 @@
 package com.yusufsezer.controller;
-
 import com.yusufsezer.model.User;
 import com.yusufsezer.util.Helper;
 import java.io.IOException;
@@ -17,42 +16,50 @@ public class RegisterServlet extends HttpServlet {
         request.setAttribute("pageTitle", "Register");
         Helper.view(request, response);
     }
+@Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    String firstName = request.getParameter("first_name");
+    String lastName = request.getParameter("last_name");
+    String email = request.getParameter("email");
+    String password = request.getParameter("password");
 
-        String[] parameters = {"first_name", "last_name", "email", "password"};
-        boolean checkResult = Helper
-                .checkParameters(parameters, request.getParameterMap());
+    if (isValidInput(firstName) && isValidInput(lastName) && isValidEmail(email)) {
+        // Input validation passed
 
-        if (!checkResult) {
-            request.setAttribute("viewFile", "register.jsp");
-            request.setAttribute("message", "Please fill all field");
-            Helper.view(request, response);
+        User newUser = new User();
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
+        newUser.setEmail(email);
+        newUser.setPassword(password);
+
+        boolean registerResult = Helper.userRepository().add(newUser);
+        if (registerResult) {
+            response.sendRedirect("login");
         } else {
-
-            String fistName = request.getParameter("first_name");
-            String lastName = request.getParameter("last_name");
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-
-            User newUser = new User();
-            newUser.setFirstName(fistName);
-            newUser.setLastName(lastName);
-            newUser.setEmail(email);
-            newUser.setPassword(Helper.md5(password));
-
-            boolean registerResult = Helper.userRepository().add(newUser);
-            if (registerResult) {
-                response.sendRedirect("login");
-            } else {
-                request.setAttribute("message", "Something went wrong.");
-                request.setAttribute("viewFile", "register.jsp");
-                request.setAttribute("pageTitle", "Register");
-                Helper.view(request, response);
-            }
+            request.setAttribute("message", "Registration failed. Please try again.");
+            request.setAttribute("viewFile", "register.jsp");
+            request.setAttribute("pageTitle", "Register");
+            Helper.view(request, response);
         }
-
+    } else {
+        // Input validation failed
+        request.setAttribute("viewFile", "register.jsp");
+        request.setAttribute("message", "Please fill all fields correctly.");
+        Helper.view(request, response);
     }
+}
+
+// Function to validate email format
+private boolean isValidEmail(String email) {
+    String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+    return email != null && email.matches(regex);
+}
+
+// Function to validate input (not empty)
+private boolean isValidInput(String input) {
+    return input != null && !input.trim().isEmpty();
+}
+    
 }

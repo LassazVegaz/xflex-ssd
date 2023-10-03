@@ -1,5 +1,4 @@
 package com.yusufsezer.repository;
-
 import com.yusufsezer.contracts.IDatabase;
 import com.yusufsezer.contracts.IRepository;
 import com.yusufsezer.model.Diary;
@@ -7,6 +6,9 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class DiaryRepository implements IRepository<Diary, Integer> {
 
@@ -16,26 +18,31 @@ public class DiaryRepository implements IRepository<Diary, Integer> {
         this.database = database;
     }
 
-    @Override
+     @Override
     public Diary get(Integer index) {
-        Diary diary = null;
-        String query = String
-                .format("SELECT * FROM diary WHERE diary_id = %d", index);
-        try {
-            ResultSet resultSet = database.executeQuery(query);
-            while (resultSet.next()) {
-                diary = new Diary();
-                diary.setId(resultSet.getInt("diary_id"));
-                diary.setUserId(resultSet.getInt("user_id"));
-                diary.setDateOfDiary(resultSet.getDate("date_of_diary"));
-                diary.setContent(resultSet.getString("content"));
-                diary.setVisibility(resultSet.getBoolean("visibility"));
-            }
-        } catch (Exception e) {
-            return diary;
+    Diary diary = null;
+    String query = "SELECT * FROM diary WHERE diary_id = ?";
+    
+    try (Connection connection = database.getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        preparedStatement.setInt(1, index); // Bind the parameter
+        
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            diary = new Diary();
+            diary.setId(resultSet.getInt("diary_id"));
+            diary.setUserId(resultSet.getInt("user_id"));
+            diary.setDateOfDiary(resultSet.getDate("date_of_diary"));
+            diary.setContent(resultSet.getString("content"));
+            diary.setVisibility(resultSet.getBoolean("visibility"));
         }
-        return diary;
+    } catch (Exception e) {
+        // Handle exceptions here
+        e.printStackTrace();
     }
+    
+    return diary;
+}
 
     @Override
     public List<Diary> getAll() {
@@ -125,16 +132,20 @@ public class DiaryRepository implements IRepository<Diary, Integer> {
     }
 
     @Override
-    public Diary remove(Integer index) {
-        String query = String
-                .format("DELETE FROM diary WHERE diary_id = %d", index);
-        Diary deletedDiary = get(index);
-        try {
-            database.executeSQL(query);
-        } catch (Exception ex) {
+        public Diary remove(Integer index) {
+            
+            String query = "DELETE FROM user WHERE diary_id = ?";
+            Diary deletedDiary= get(index);
+            try{
+                database.executeSQL(query);
+            }catch(Exception ex){
+                return deletedDiary;
+
+
+            }
             return deletedDiary;
-        }
-        return deletedDiary;
-    }
+            }
+            
+            
 
 }
