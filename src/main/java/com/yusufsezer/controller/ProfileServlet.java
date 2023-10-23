@@ -19,6 +19,11 @@ public class ProfileServlet extends HttpServlet {
             int requestedUserId = Integer.parseInt(request.getParameter("user_id"));
             User requestedUser = Helper.userRepository().get(requestedUserId);
 
+            // user_id parameter is directly used to fetch user data without any validation
+            // or authorization checks. If an attacker
+            // manipulates the user_id parameter in the request, they could potentially
+            // access other users' profiles and diaries
+
             if (requestedUser != null && loggedInUser.getId() == requestedUser.getId()) {
                 // check The logged-in user is authorization
                 request.setAttribute("viewFile", "profile.jsp");
