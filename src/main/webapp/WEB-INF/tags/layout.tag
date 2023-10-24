@@ -3,7 +3,7 @@
 <%@taglib tagdir="/WEB-INF/tags/" prefix="t" %>
 
 <%
-String pageTitle = (String) request.getAttribute("pageTitle");
+String pageTitle = request.getAttribute("pageTitle").toString();
 pageTitle = Encode.forHtml(pageTitle);
 %>
 
