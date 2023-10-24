@@ -19,6 +19,8 @@ public class ProfileServlet extends HttpServlet {
             int requestedUserId = Integer.parseInt(request.getParameter("user_id"));
             User requestedUser = Helper.userRepository().get(requestedUserId);
 
+            // access other users' profiles and diaries
+
             if (requestedUser != null && loggedInUser.getId() == requestedUser.getId()) {
                 // check The logged-in user is authorization
                 request.setAttribute("viewFile", "profile.jsp");

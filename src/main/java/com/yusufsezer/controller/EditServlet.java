@@ -47,7 +47,8 @@ public class EditServlet extends HttpServlet {
         if (foundDiary != null) {
 
             String diaryContent = request.getParameter("diaryContent");
-            // encode the diaryContent parameter before setting it in the foundDiary object
+            // encode the diaryContent which is obtained from user inputs parameter before
+            // setting it in the foundDiary object
             diaryContent = Encode.forHtml(diaryContent);
             boolean visible = request.getParameter("visible") != null;
             foundDiary.setContent(diaryContent);

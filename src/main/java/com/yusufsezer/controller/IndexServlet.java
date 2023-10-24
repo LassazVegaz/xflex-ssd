@@ -21,7 +21,8 @@ public class IndexServlet extends HttpServlet {
         request.setAttribute("viewFile", "index.jsp");
         request.setAttribute("pageTitle", "Just Another Java JSP App...");
 
-        // sanitize diaryList and userList before setting them as attributes
+        // sanitize diaryList and userList(user generated contents) before setting them
+        // as attributes
         List<Diary> diaryList = Helper.diaryRepository().getAll();
         List<User> userList = Helper.userRepository().getAll();
 
@@ -35,7 +36,7 @@ public class IndexServlet extends HttpServlet {
             user.setFirstName(Encode.forHtml(user.getFirstName()));
 
         }
-
+        // set them as attributes after sanitizing
         request.setAttribute("diaryList", diaryList);
         request.setAttribute("userList", userList);
 

@@ -18,7 +18,8 @@ public class DeleteServlet extends HttpServlet {
         int diaryId = Integer.parseInt(request.getParameter("diary_id"));
         Diary foundDiary = Helper.diaryRepository().get(diaryId);
 
-        // ensure that users can only delete their own diaries and not others
+        // added proper access control machanisum to ensure that users can only delete
+        // their own diaries and not others
         User loginUser = Helper.getLoginUser(request);
         if (foundDiary != null && foundDiary.getUserId() == loginUser.getId()) {
             Helper.diaryRepository().remove(diaryId);
