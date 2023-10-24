@@ -1,1 +1,8 @@
 database_url=jdbc:mysql://localhost:3306/jspDiary?useSSL=false&serverTimezone=UTC&user=root&password=lassi2k-MySQL&charset=UTF-8
+
+wso2.client_id=<CLIENT ID>
+wso2.client_secret=<CLIENT SECRET>
+wso2.login_url=https://localhost:9443/oauth2/authorize?response_type=code&client_id=<CLIENT ID>&nonce=asd&redirect_uri=http://localhost:8080/java-jsp-diary/wso_callback&scope=openid
+wso2.token_url=https://localhost:9443/oauth2/token
+wso2.redirect_url=http://localhost:8080/java-jsp-diary/wso_callback
+wso2.user_default_password=cannotLoginWithThisPassword
