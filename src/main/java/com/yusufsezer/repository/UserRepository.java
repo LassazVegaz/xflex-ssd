@@ -66,8 +66,9 @@ public class UserRepository implements IRepository<User, Integer> {
     public boolean add(User user) {
         boolean result = false;
 
+        Connection connection = null;
         try {
-            Connection connection = database.getConnection();
+            connection = database.getConnection();
             String query = "INSERT INTO user VALUES(NULL, ?, ?, ?, ?)";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -84,6 +85,12 @@ public class UserRepository implements IRepository<User, Integer> {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             return result;
+        } finally {
+            try {
+                if (connection != null)
+                    connection.close();
+            } catch (Exception e) {
+            }
         }
         return result;
     }
@@ -150,8 +157,9 @@ public class UserRepository implements IRepository<User, Integer> {
     public boolean isEmailExist(String email) throws SQLException {
         boolean result = false;
         PreparedStatement preparedStatement = null;
+        Connection connection;
         try {
-            Connection connection = database.getConnection();
+            connection = database.getConnection();
             String query = "SELECT * FROM user WHERE email = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, email);
@@ -162,6 +170,8 @@ public class UserRepository implements IRepository<User, Integer> {
         } finally {
             if (preparedStatement != null)
                 preparedStatement.close();
+            if (preparedStatement != null)
+                preparedStatement.close();
         }
         return result;
     }
@@ -170,8 +180,9 @@ public class UserRepository implements IRepository<User, Integer> {
         String query = "SELECT user_id FROM user WHERE email = ?";
         User user = null;
         PreparedStatement preparedStatement = null;
+        Connection connection;
         try {
-            Connection connection = database.getConnection();
+            connection = database.getConnection();
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -181,6 +192,8 @@ public class UserRepository implements IRepository<User, Integer> {
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
+            if (preparedStatement != null)
+                preparedStatement.close();
             if (preparedStatement != null)
                 preparedStatement.close();
         }
