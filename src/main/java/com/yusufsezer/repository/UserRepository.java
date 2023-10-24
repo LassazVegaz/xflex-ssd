@@ -82,6 +82,7 @@ public class UserRepository implements IRepository<User, Integer> {
 
             result = true;
         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             return result;
         }
         return result;
